@@ -28,4 +28,4 @@ ________    ________    ________
 ```
 ### DNN Architecture
 - output layer have an activation sigmoid function any thing else is an relu activation function.
-![DNN Architecture](https://github.com/AhmedNabih/Chunk_Classifier_DNN/blob/master/Images/DNN_Architecture.PNG)
+![DNN Architecture](https://github.com/AhmedNabih/Chunk_Classifier_DNN/blob/master/Images/DNN_Architecture2.PNG)
