@@ -29,16 +29,17 @@ def DataProcess(inputString, DIMX, DIMY):
 if __name__ == "__main__":
 
     inputStr = ReadFile("./inputX.txt")
-    X = DataProcess(inputStr, 1, 81)
-    X = regularization(X)
+    X = DataProcess(inputStr, 81, 2)
+    X = X.T
+    #X = regularization(X)
     inputStr = ReadFile("./inputY.txt")
     # it should be (9, 81) but i am a lazy input writer so i flipped it to fit my data
     Y = DataProcess(inputStr, 81, 9)
     Y = Y.T
 
-    layers_dims = (1, 9, 9)
+    layers_dims = (2, 9, 9, 9)
     lr = 0.005
-    IterNum = 200000
+    IterNum = 90000
 
     param, costs = L_layer_model(X, Y, layers_dims, lr, IterNum, 1000, True)
 
