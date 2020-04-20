@@ -1,7 +1,49 @@
+import numpy as np
+
 from Utils.DNN import initialize_parameters_deep, L_model_forward, compute_cost, L_model_backward, update_parameters
 
 
-def L_layer_model(X, Y, layers_dims, learning_rate=0.0075, num_iterations=3000, print_cost=False):
+def regularization(X):
+    if X.shape[0] > 1:
+        averageX = np.average(X, axis=0)
+    else:
+        averageX = 0
+    stdX = np.std(X)
+    NewX = (X - averageX) / stdX
+    return NewX
+
+
+def predict(X, y, parameters):
+    """
+    This function is used to predict the results of a  L-layer neural network.
+
+    Arguments:
+    X -- data set of examples you would like to label
+    parameters -- parameters of the trained model
+
+    Returns:
+    p -- predictions for the given dataset X
+    """
+
+    m = X.shape[1]
+    p = np.zeros((1, m))
+
+    # Forward propagation
+    probas, caches = L_model_forward(X, parameters)
+
+    # convert probas to 0/1 predictions
+    for i in range(0, probas.shape[1]):
+        if probas[0, i] > 0.5:
+            p[0, i] = 1
+        else:
+            p[0, i] = 0
+
+    print("Accuracy: " + str(np.sum((p == y) / m)))
+
+    return p
+
+
+def L_layer_model(X, Y, layers_dims, learning_rate=0.0075, num_iterations=3000, Print_Variance=100, print_cost=False):
     """
     Implements a L-layer neural network: [LINEAR->RELU]*(L-1)->LINEAR->SIGMOID.
 
@@ -38,9 +80,9 @@ def L_layer_model(X, Y, layers_dims, learning_rate=0.0075, num_iterations=3000, 
         parameters = update_parameters(parameters, grads, learning_rate)
 
         # Print the cost every 100 training example
-        if print_cost and i % 100 == 0:
+        if print_cost and i % Print_Variance == 0:
             print("Cost after iteration %i: %f" % (i, cost))
-        if print_cost and i % 100 == 0:
+        if print_cost and i % Print_Variance == 0:
             costs.append(cost)
 
     return parameters, costs

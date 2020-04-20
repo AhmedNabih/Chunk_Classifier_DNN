@@ -2,7 +2,7 @@ import re
 import numpy as np
 import matplotlib.pyplot as plt
 
-from Utils.DNN_Model import L_layer_model
+from Utils.DNN_Model import L_layer_model, predict, regularization
 
 
 def ReadFile(inputPath):
@@ -30,17 +30,17 @@ if __name__ == "__main__":
 
     inputStr = ReadFile("./inputX.txt")
     X = DataProcess(inputStr, 1, 81)
-
+    X = regularization(X)
     inputStr = ReadFile("./inputY.txt")
-    # it should be 9, 81 but i am a lazy input writer so i flipped it to fit my data
+    # it should be (9, 81) but i am a lazy input writer so i flipped it to fit my data
     Y = DataProcess(inputStr, 81, 9)
     Y = Y.T
 
     layers_dims = (1, 9, 9)
     lr = 0.005
-    IterNum = 2000
+    IterNum = 200000
 
-    param, costs = L_layer_model(X, Y, layers_dims, lr, IterNum, True)
+    param, costs = L_layer_model(X, Y, layers_dims, lr, IterNum, 1000, True)
 
     # plot the cost
     plt.rcParams['figure.figsize'] = (5.0, 4.0)  # set default size of plots
@@ -51,3 +51,6 @@ if __name__ == "__main__":
     plt.xlabel('iterations (per hundreds)')
     plt.title("Learning rate =" + str(lr))
     plt.show()
+
+    testy = predict(X, Y, param)
+    print(testy)
