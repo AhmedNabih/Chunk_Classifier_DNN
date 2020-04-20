@@ -1,14 +1,7 @@
-import numpy as np
-import matplotlib.pyplot as plt
-
 from Utils.DNN import initialize_parameters_deep, L_model_forward, compute_cost, L_model_backward, update_parameters
 
-plt.rcParams['figure.figsize'] = (5.0, 4.0) # set default size of plots
-plt.rcParams['image.interpolation'] = 'nearest'
-plt.rcParams['image.cmap'] = 'gray'
 
-
-def L_layer_model(X, Y, layers_dims, learning_rate=0.0075, num_iterations=3000, print_cost=False):  # lr was 0.009
+def L_layer_model(X, Y, layers_dims, learning_rate=0.0075, num_iterations=3000, print_cost=False):
     """
     Implements a L-layer neural network: [LINEAR->RELU]*(L-1)->LINEAR->SIGMOID.
 
@@ -50,11 +43,4 @@ def L_layer_model(X, Y, layers_dims, learning_rate=0.0075, num_iterations=3000, 
         if print_cost and i % 100 == 0:
             costs.append(cost)
 
-    # plot the cost
-    plt.plot(np.squeeze(costs))
-    plt.ylabel('cost')
-    plt.xlabel('iterations (per hundreds)')
-    plt.title("Learning rate =" + str(learning_rate))
-    plt.show()
-
-    return parameters
+    return parameters, costs
